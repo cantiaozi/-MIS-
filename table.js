@@ -35,29 +35,40 @@ let sourceData = [{
     region: "华南",
     sale: [10, 40, 10, 6, 5, 6, 8, 6, 6, 6, 7, 26]
 }]
-var selects = document.getElementById("region-select");
+var regionSelects = document.getElementById("region-select");
+var productSelects = document.getElementById("product-select");
 var tableWrapper = document.getElementById("table-wrapper");
-selects.onchange = function(e) {
-    var data = getData(selects.value);
+createTable([regionSelects.value, productSelects.value], getData([regionSelects.value, productSelects.value]));
+regionSelects.onchange = function(e) {
+    var options = [regionSelects.value, productSelects.value]; 
+    console.log("options", options)
+    var data = getData(options);
     console.log("data", data)
-    createTable(selects.value, data);
+    createTable(options, data);
 }
-function getData(value) {
+productSelects.onchange = function(e) {
+    var options = [regionSelects.value, productSelects.value]; 
+    console.log("options", options)
+    var data = getData(options);
+    console.log("data", data)
+    createTable(options, data);
+}
+function getData(options) {
     return sourceData.filter(function(item) {
-        return item.region === value;
+        return item.region === options[0] && item.product === options[1];
     })
 }
-function createTable(value, data) {
+function createTable(options, data) {
     tableWrapper.innerHTML = "";
-    console.log("diqu", value, "data", data)
+    console.log("options", options, "data", data)
     var head = document.createElement("p");
-    head.innerHTML = value + "地区手机、电脑和音响一年的销售量";
+    head.innerHTML = options[0] + "地区" + options[1] + "一年的销售量";
     tableWrapper.appendChild(head)
     var table = document.createElement("table");
     table.border = 1;
     tableWrapper.appendChild(table);
     // var thead = document.createElement("thead");
-    // thead.appendChild(document.createTextNode(value + "地区手机和电脑一年的销售量"))
+    // thead.appendChild(document.createTextNode(options + "地区手机和电脑一年的销售量"))
     // table.appendChild(thead);
     var tbody = document.createElement("tbody");
     table.appendChild(tbody);
