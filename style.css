@@ -1,11 +1,9 @@
 thead {
     text-align: center;
 }
-.region {
-    width: 80px;
-}
 table {
     border-spacing: 0px;
+    margin: 0px auto;
 }
 td {
     padding: 5px;
@@ -21,4 +19,9 @@ canvas {
 }
 .clearfix {
     overflow: auto;
+}
+#region-radio-wrapper, #product-radio-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

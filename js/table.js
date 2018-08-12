@@ -22,6 +22,8 @@ function createTable(options, data) {
         }
         for(i = 0; i < data.length; i++) {
             tbody.insertRow(i+1);
+            tbody.rows[i+1].className = data[i].region + data[i].product;
+            tbody.rows[i+1].addEventListener("mouseover", mouseoverListener, false)
             for(var j = 0; j < 14; j++) {
                 if(i > 0 && j === 13) {
                     continue;
@@ -54,6 +56,8 @@ function createTable(options, data) {
         }
         for(i = 0; i < data.length; i++) {
             tbody.insertRow(i+1);
+            tbody.rows[i+1].className = data[i].region + data[i].product;
+            tbody.rows[i+1].addEventListener("mouseover", mouseoverListener, false)
             for(var j = 0; j < 14; j++) {
                 if(i%options[0].length !== 0 && j === 13) {
                     continue;
@@ -74,6 +78,18 @@ function createTable(options, data) {
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-1]))
                 }
             }
+        }
+    }
+}
+
+function mouseoverListener(e) {
+    console.log("mouseover", e.target.parentNode.className)
+    var data = [];
+    for(var i = 0; i < sourceData.length; i++) {
+        if(e.target.parentNode.className.indexOf(sourceData[i].region) !== -1 && e.target.parentNode.className.indexOf(sourceData[i].product) !== -1) {
+            console.log("datasource", sourceData[i]);
+            getLine(sourceData[i]);
+            getChart(sourceData[i]);
         }
     }
 }

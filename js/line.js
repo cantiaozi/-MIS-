@@ -7,19 +7,21 @@ function getLine(data) {
     const lineColor = "red"; 
 
     var proportion = 0;
-    var sortArray = data.sale.sort(function(a, b) {
+    var dataCopy = data.sale.concat([])
+    dataCopy.sort(function(a, b) {
         if(a < b) {
             return -1;
         } else {
             return 1;
         }
     });
-    console.log("max", sortArray[sortArray.length-1]);
-    proportion = (yLength-20) / sortArray[sortArray.length-1]; 
+    console.log("max", dataCopy[dataCopy.length-1]);
+    proportion = (yLength-20) / dataCopy[dataCopy.length-1]; 
 
     var canvas = document.getElementById("canvas");
     if(canvas.getContext) {
         var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.strokeStyle = axisColor;
         context.fillStyle = lineColor;
         context.lineWidth = axisWidth;
@@ -31,7 +33,6 @@ function getLine(data) {
         
         context.beginPath();
         for(var i = 0; i < 12; i++) {//画实心圆
-            console.log("position", 100+distance*(i+1)+2.5, yLength-data.sale[i]*proportion)
             context.moveTo(100+distance*(i+1)+2.5, yLength-data.sale[i]*proportion);
             context.arc(100+distance*(i+1), yLength-data.sale[i]*proportion, 2.5, 0, 2*(Math.PI), false);
             context.fill();

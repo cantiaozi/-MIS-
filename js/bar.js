@@ -6,6 +6,7 @@ function getChart(data) {
     const rectWidth = (xLength - 20 - 12 * distance) / 12;
     const rectColor = "red";
     var svg = document.getElementById("svg");
+    svg.innerHTML = "";
     var axisY = document.createElementNS("http://www.w3.org/2000/svg", "line");
     axisY.setAttribute("x1", "100");
     axisY.setAttribute("y1", yLength);
@@ -24,15 +25,16 @@ function getChart(data) {
     svg.appendChild(axisX);
 
     var proportion = 0;
-    var sortArray = data.sale.sort(function(a, b) {
+    var dataCopy = data.sale.concat([])
+    dataCopy.sort(function(a, b) {
         if(a < b) {
             return -1;
         } else {
             return 1;
         }
     });
-    console.log("max", sortArray[sortArray.length-1]);
-    proportion = (yLength-20) / sortArray[sortArray.length-1]; 
+    console.log("max", dataCopy[dataCopy.length-1]);
+    proportion = (yLength-20) / dataCopy[dataCopy.length-1]; 
     for(var i = 0; i < data.sale.length; i++) {
         var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         rect.setAttribute("width", rectWidth);
