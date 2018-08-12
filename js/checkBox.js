@@ -31,5 +31,6 @@ function getCheckBox(divId) {
         var data = getData(options);
         console.log("data", data)
         createTable(options, data)
+        getLine(data);
     }
 }

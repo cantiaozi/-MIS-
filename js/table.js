@@ -3,6 +3,7 @@ function createTable(options, data) {
     var productNum = getCheckedNum("product-radio-wrapper");
     tableWrapper.innerHTML = "";
     var table = document.createElement("table");
+    table.addEventListener("mouseout", mouseleaveListener, false)
     table.border = 1;
     table.cellspacing = "0";
     tableWrapper.appendChild(table);
@@ -69,9 +70,7 @@ function createTable(options, data) {
                 } else if(i%options[0].length !== 0 && j === 0) {
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].region));
                 } else if(i%options[0].length === 0 && j === 1){
-                    console.log("i j", i , j)
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].region))
-                    console.log("region", data[i].region)
                 } else if(i%options[0].length === 0 && j > 1){
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-2]))///
                 } else{
@@ -87,9 +86,14 @@ function mouseoverListener(e) {
     var data = [];
     for(var i = 0; i < sourceData.length; i++) {
         if(e.target.parentNode.className.indexOf(sourceData[i].region) !== -1 && e.target.parentNode.className.indexOf(sourceData[i].product) !== -1) {
-            console.log("datasource", sourceData[i]);
-            getLine(sourceData[i]);
+            // console.log("datasource", sourceData[i]);
+            getLine([sourceData[i]]);
             getChart(sourceData[i]);
         }
     }
+}
+function mouseleaveListener(e) {
+    var options = getOptions();
+    var data = getData(options);
+    getLine(data);
 }
