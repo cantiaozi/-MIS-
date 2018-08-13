@@ -25,3 +25,12 @@ canvas {
     align-items: center;
     justify-content: center;
 }
+input {
+    width: 30px;
+}
+#saveDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}

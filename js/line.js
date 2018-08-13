@@ -10,7 +10,7 @@ function getLine(data) {
     var proportion = 0;
     var allData = [];
     for(var j = 0; j < data.length; j++) {
-        console.log("data[j]", data[j]);
+        // console.log("data[j]", data[j]);
         for(var i = 0; i < 12; i++) {
             allData.push(data[j].sale[i]);
         }

@@ -10,6 +10,7 @@ function createTable(options, data) {
     var tbody = document.createElement("tbody");
     table.appendChild(tbody);
     tbody.insertRow(0);
+    var input = null;//要插入的input元素
     if(regionNum === 1 && productNum > 1) {
         for(var i = 0; i < 14; i++) {
             tbody.rows[0].insertCell(i);
@@ -38,9 +39,11 @@ function createTable(options, data) {
                 } else if(i === 0 && j === 1){
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].product))
                 } else if(i === 0 && j > 1){
-                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-2]))///
+                    input = getInput(data[i].sale[j-2]);
+                    tbody.rows[i+1].cells[j].appendChild(input)///
                 } else {
-                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-1]))
+                    input = getInput(data[i].sale[j-1])
+                    tbody.rows[i+1].cells[j].appendChild(input);
                 }
             }
         }
@@ -72,9 +75,11 @@ function createTable(options, data) {
                 } else if(i%options[0].length === 0 && j === 1){
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].region))
                 } else if(i%options[0].length === 0 && j > 1){
-                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-2]))///
+                    input = getInput(data[i].sale[j-2])
+                    tbody.rows[i+1].cells[j].appendChild(input)///
                 } else{
-                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-1]))
+                    input = getInput(data[i].sale[j-1]);
+                    tbody.rows[i+1].cells[j].appendChild(input)
                 }
             }
         }
@@ -96,4 +101,18 @@ function mouseleaveListener(e) {
     var options = getOptions();
     var data = getData(options);
     getLine(data);
+}
+function getInput(value) {
+    var input = document.createElement("input");
+    input.addEventListener("blur", blurListener, false);
+    input.setAttribute("type", "text");
+    input.setAttribute("value", value);
+    return input;
+}
+function blurListener(e) {
+    var pattern = /^[0-9]+$/;
+    if(!pattern.test(e.target.value)) {
+        alert("请输入数字");
+        // e.target.select();
+    }
 }

@@ -38,6 +38,14 @@ let sourceData = [{
 getCheckBox("region-radio-wrapper");
 getCheckBox("product-radio-wrapper");
 var tableWrapper = document.getElementById("table-wrapper");
+var button =document.getElementById("save");
+var localData = [];
+button.onclick = function(e) {
+    savaData();
+}
+if(localStorage.getItem("newData")) {
+    sourceData = JSON.parse(localStorage.getItem("newData"));
+}
 createTable([["华东", "华南", "华北"], ["手机", "笔记本", "智能音箱"]], sourceData);
 getChart(sourceData[0]);
 getLine(sourceData);
