@@ -39,11 +39,15 @@ function createTable(options, data) {
                 } else if(i === 0 && j === 1){
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].product))
                 } else if(i === 0 && j > 1){
-                    input = getInput(data[i].sale[j-2]);
-                    tbody.rows[i+1].cells[j].appendChild(input)///
+                    // input = getInput(data[i].sale[j-2]);
+                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-2]))///                    
+                    tbody.rows[i+1].cells[j].addEventListener("mouseleave", tdMouseLeaverListener, false)
+                    tbody.rows[i+1].cells[j].addEventListener("mouseenter", tdMouseEnterListener, false)
                 } else {
-                    input = getInput(data[i].sale[j-1])
-                    tbody.rows[i+1].cells[j].appendChild(input);
+                    // input = getInput(data[i].sale[j-1])
+                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-1]));
+                    tbody.rows[i+1].cells[j].addEventListener("mouseleave", tdMouseLeaverListener, false)
+                    tbody.rows[i+1].cells[j].addEventListener("mouseenter", tdMouseEnterListener, false)
                 }
             }
         }
@@ -61,7 +65,7 @@ function createTable(options, data) {
         for(i = 0; i < data.length; i++) {
             tbody.insertRow(i+1);
             tbody.rows[i+1].className = data[i].region + data[i].product;
-            tbody.rows[i+1].addEventListener("mouseover", mouseoverListener, false)
+            tbody.rows[i+1].addEventListener("mouseover", mouseoverListener, false);
             for(var j = 0; j < 14; j++) {
                 if(i%options[0].length !== 0 && j === 13) {
                     continue;
@@ -75,11 +79,15 @@ function createTable(options, data) {
                 } else if(i%options[0].length === 0 && j === 1){
                     tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].region))
                 } else if(i%options[0].length === 0 && j > 1){
-                    input = getInput(data[i].sale[j-2])
-                    tbody.rows[i+1].cells[j].appendChild(input)///
+                    // input = getInput(data[i].sale[j-2])
+                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-2]))///
+                    tbody.rows[i+1].cells[j].addEventListener("mouseleave", tdMouseLeaverListener, false)
+                    tbody.rows[i+1].cells[j].addEventListener("mouseenter", tdMouseEnterListener, false)
                 } else{
-                    input = getInput(data[i].sale[j-1]);
-                    tbody.rows[i+1].cells[j].appendChild(input)
+                    // input = getInput(data[i].sale[j-1]);
+                    tbody.rows[i+1].cells[j].appendChild(document.createTextNode(data[i].sale[j-1]))
+                    tbody.rows[i+1].cells[j].addEventListener("mouseleave", tdMouseLeaverListener, false)
+                    tbody.rows[i+1].cells[j].addEventListener("mouseenter", tdMouseEnterListener, false)
                 }
             }
         }
@@ -87,7 +95,6 @@ function createTable(options, data) {
 }
 
 function mouseoverListener(e) {
-    console.log("mouseover", e.target.parentNode.className)
     var data = [];
     for(var i = 0; i < sourceData.length; i++) {
         if(e.target.parentNode.className.indexOf(sourceData[i].region) !== -1 && e.target.parentNode.className.indexOf(sourceData[i].product) !== -1) {
@@ -95,6 +102,33 @@ function mouseoverListener(e) {
             getLine([sourceData[i]]);
             getChart(sourceData[i]);
         }
+    }
+}
+function tdMouseLeaverListener(e) {
+    console.log("e mouseleave", e.target);
+    if(e.target.getElementsByTagName("span").length > 0) {
+        e.target.innerHTML = e.target.getElementsByTagName("span")[0].innerHTML;//如果是非编辑的状态移出光标
+    } else {
+        e.target.innerHTML = targetValue;//如果是编辑的状态移出光标
+    }
+    
+}
+function tdMouseEnterListener(e) {
+    console.log("e mouseenter", e.target)
+    if(e.target.getElementsByTagName("input").length === 0) {
+        var span = document.createElement("span");
+        if(e.target.getElementsByTagName("span").length === 0) {
+            span.innerHTML = e.target.innerHTML;
+        } else {
+            span.innerHTML = e.target.getElementsByTagName("span")[0].innerHTML;
+        }
+        var anotherSpan = document.createElement("span");
+        anotherSpan.innerHTML = "编辑";
+        anotherSpan.setAttribute("class", "edit")
+        e.target.innerHTML = "";
+        console.log("mmmmmm")
+        e.target.appendChild(span);
+        e.target.appendChild(anotherSpan);
     }
 }
 function mouseleaveListener(e) {
@@ -113,6 +147,5 @@ function blurListener(e) {
     var pattern = /^[0-9]+$/;
     if(!pattern.test(e.target.value)) {
         alert("请输入数字");
-        // e.target.select();
     }
 }

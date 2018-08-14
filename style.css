@@ -6,11 +6,12 @@ table {
     margin: 0px auto;
 }
 td {
+    width: 90px;
     padding: 5px;
     text-align: center;
 }
 svg {
-    margin:50px 0px;
+    margin: 50px 0px;
     float: left;
 }
 canvas {
@@ -33,4 +34,19 @@ input {
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
+}
+.edit {
+    font-size: 5px;
+    margin-left: 5px;
+}
+button {
+    font-size: 5px;
+    margin-left: 5px;
+    padding: 1px;
+    border: 1px;
+}
+#save {
+    font-size: 15px;
+    padding: 5px;
+    margin: 0px;
 }

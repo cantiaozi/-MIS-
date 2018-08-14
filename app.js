@@ -49,3 +49,4 @@ if(localStorage.getItem("newData")) {
 createTable([["华东", "华南", "华北"], ["手机", "笔记本", "智能音箱"]], sourceData);
 getChart(sourceData[0]);
 getLine(sourceData);
+document.body.addEventListener("click", clickListener, false);

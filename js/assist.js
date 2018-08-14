@@ -1,3 +1,4 @@
+var targetValue = "";
 function getData(options) {
     return sourceData.filter(function(item) {
         // return item.region === options[0] && item.product === options[1];
@@ -115,7 +116,8 @@ function getRightData(region, product, sourceCopy, tds) {
     for(var i = 0; i < 9; i++) {
         if(sourceCopy[i].region === region && sourceCopy[i].product === product) {
             for(var j = 0; j < 12; j++) {
-                rightData = tds[j].getElementsByTagName("input")[0].value
+                // rightData = tds[j].getElementsByTagName("input")[0].value
+                rightData = tds[j].innerHTML;
                 sourceCopy[i].sale[j] = Number(rightData);
                 
             }
@@ -134,4 +136,75 @@ function checkData(data) {
         }
     }
     return true;
+}
+function checkValue(value) {
+    var pattern = /^[0-9]+$/;
+    if(!pattern.test(value)) {  
+        return false;
+    } else {
+        return true;
+    }
+    
+}
+function clickListener(e) {
+    console.log("click e", e.target.nodeName);
+    if((e.target.nodeName.toLowerCase() === "td" && e.target.getElementsByTagName("input").length === 0) ) {//将表格变为编辑状态
+
+        // console.log("bianji")
+        // var input = document.createElement("input");
+        targetValue = e.target.getElementsByTagName("span")[0].innerHTML;
+        // input.value = e.target.getElementsByTagName("span")[0].innerHTML;
+        // var cancelButton = document.createElement("button");
+        // cancelButton.innerHTML = "取消";
+        // var sureButton = document.createElement("button"); 
+        // sureButton.innerHTML = "确定";
+        // e.target.innerHTML = "";
+        // e.target.appendChild(input);
+        // e.target.appendChild(cancelButton);
+        // e.target.appendChild(sureButton);
+        console.log("edit value", e.target.getElementsByTagName("span")[0].innerHTML)
+        editTable(e.target.getElementsByTagName("span")[0].innerHTML, e.target);
+    } else if(e.target.nodeName.toLowerCase() === "span" && e.target.parentNode.getElementsByTagName("input").length === 0) {//将表格变为编辑状态
+        targetValue = e.target.parentNode.getElementsByTagName("span")[0].innerHTML;
+        editTable(e.target.parentNode.getElementsByTagName("span")[0].innerHTML, e.target.parentNode);
+    } else if(e.target.nodeName.toLowerCase() === "button" && e.target.innerHTML === "取消") {//取消编辑状态
+        var span = document.createElement("span");
+        span.innerHTML = targetValue;
+        var anotherSpan = document.createElement("span");
+        anotherSpan.innerHTML = "编辑";
+        anotherSpan.setAttribute("class", "edit")
+        var parentTd = e.target.parentNode;
+        e.target.parentNode.innerHTML = "";
+        parentTd.appendChild(span);//当将e.target.parentNode 的innerHTML清空后，e.target.parentNode 就成为了null
+        parentTd.appendChild(anotherSpan);
+    } else if(e.target.nodeName.toLowerCase() === "button" && e.target.innerHTML === "确定") {//编辑后确定
+        if(checkValue(e.target.parentNode.getElementsByTagName("input")[0].value)) {
+            var span = document.createElement("span");
+            span.innerHTML = e.target.parentNode.getElementsByTagName("input")[0].value;
+            var anotherSpan = document.createElement("span");
+            anotherSpan.innerHTML = "编辑";
+            anotherSpan.setAttribute("class", "edit")
+            var parentTd = e.target.parentNode;
+            e.target.parentNode.innerHTML = "";
+            console.log("edit sure", e.target, e.target.parentNode)
+            parentTd.appendChild(span);
+            parentTd.appendChild(anotherSpan);
+        } else {
+            alert("输入有误，请重新输入")
+        }       
+    }
+
+}
+function editTable(value, targetTd) {
+    var input = document.createElement("input");
+        // targetValue = e.target.getElementsByTagName("span")[0].innerHTML;
+        input.value = value;
+        var cancelButton = document.createElement("button");
+        cancelButton.innerHTML = "取消";
+        var sureButton = document.createElement("button"); 
+        sureButton.innerHTML = "确定";
+        targetTd.innerHTML = "";
+        targetTd.appendChild(input);
+        targetTd.appendChild(cancelButton);
+        targetTd.appendChild(sureButton);
 }
