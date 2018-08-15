@@ -9,7 +9,7 @@ function getCheckBox(divId) {
             } else {
                 for(var i = 1; i < children.length; i++) {
                     children[i].checked = true;
-                }
+                }                
             }
         } else {
             if(e.target.checked === false) {
@@ -26,10 +26,9 @@ function getCheckBox(divId) {
                 }
             }
         }
+        createState();
         var options = getOptions();
-        console.log("options", options);
         var data = getData(options);
-        console.log("data", data)
         createTable(options, data)
         getLine(data);
     }

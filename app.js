@@ -46,7 +46,18 @@ button.onclick = function(e) {
 if(localStorage.getItem("newData")) {
     sourceData = JSON.parse(localStorage.getItem("newData"));
 }
-createTable([["华东", "华南", "华北"], ["手机", "笔记本", "智能音箱"]], sourceData);
-getChart(sourceData[0]);
-getLine(sourceData);
+if(getOptionsFromURL().length === 0) {
+    history.replaceState({}, "", "?region=华东,华南,华北&product=手机,笔记本,智能音箱");
+    createTable([["华东", "华南", "华北"], ["手机", "笔记本", "智能音箱"]], sourceData);
+    getChart(sourceData[0]);
+    getLine(sourceData);
+} else {
+    var options = getOptionsFromURL();
+    var data = getData(options);
+    checkInput(options)
+    createTable(options, data);
+    getLine(data);
+    getChart(sourceData[0]);
+}
 document.body.addEventListener("click", clickListener, false);
+window.addEventListener("popstate", popStateListener, false);

@@ -105,7 +105,6 @@ function mouseoverListener(e) {
     }
 }
 function tdMouseLeaverListener(e) {
-    console.log("e mouseleave", e.target);
     if(e.target.getElementsByTagName("span").length > 0) {
         e.target.innerHTML = e.target.getElementsByTagName("span")[0].innerHTML;//如果是非编辑的状态移出光标
     } else {
@@ -114,7 +113,6 @@ function tdMouseLeaverListener(e) {
     
 }
 function tdMouseEnterListener(e) {
-    console.log("e mouseenter", e.target)
     if(e.target.getElementsByTagName("input").length === 0) {
         var span = document.createElement("span");
         if(e.target.getElementsByTagName("span").length === 0) {
@@ -126,7 +124,6 @@ function tdMouseEnterListener(e) {
         anotherSpan.innerHTML = "编辑";
         anotherSpan.setAttribute("class", "edit")
         e.target.innerHTML = "";
-        console.log("mmmmmm")
         e.target.appendChild(span);
         e.target.appendChild(anotherSpan);
     }

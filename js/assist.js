@@ -105,7 +105,6 @@ function savaData() {
         }
     }
     if(checkData(sourceCopy)) {
-        console.log("dfesgowgke", sourceCopy )
         localStorage.setItem("newData", JSON.stringify(sourceCopy))
     } else {
         alert("请输入数字，然后保存")
@@ -147,7 +146,6 @@ function checkValue(value) {
     
 }
 function clickListener(e) {
-    console.log("click e", e.target.nodeName);
     if((e.target.nodeName.toLowerCase() === "td" && e.target.getElementsByTagName("input").length === 0) ) {//将表格变为编辑状态
 
         // console.log("bianji")
@@ -186,7 +184,6 @@ function clickListener(e) {
             anotherSpan.setAttribute("class", "edit")
             var parentTd = e.target.parentNode;
             e.target.parentNode.innerHTML = "";
-            console.log("edit sure", e.target, e.target.parentNode)
             parentTd.appendChild(span);
             parentTd.appendChild(anotherSpan);
         } else {
@@ -207,4 +204,42 @@ function editTable(value, targetTd) {
         targetTd.appendChild(input);
         targetTd.appendChild(cancelButton);
         targetTd.appendChild(sureButton);
+}
+function getOptionsFromURL() {
+    var options = [];
+    var search = window.location.search;
+    if(!search) {
+        options = [];
+    } else {
+        // console.log("search", window.location.search);
+        var str = search.substring(1);
+        var arr = str.split("&");
+        // options[0] = arr[0].split("=")[1].split(",");
+        // options[1] = arr[1].split("=")[1].split(",");
+        options[0] = decodeURIComponent(arr[0].split("=")[1]).split(",");//从url种解析出来的字符要经过解码
+        options[1] = decodeURIComponent(arr[1].split("=")[1]).split(",");
+    }
+    return options;
+}
+function checkInput(options) {
+    var regionDiv = document.getElementById("region-radio-wrapper");
+    var productDiv = document.getElementById("product-radio-wrapper");
+    var regionInputs = regionDiv.getElementsByTagName("input");
+    var productInputs = productDiv.getElementsByTagName("input");
+    for(var i = 0; i < 4; i++) {
+        regionInputs[i].checked = false;
+        productInputs[i].checked = false;
+    }
+    for(var i = 0; i < options[0].length; i++) {
+        regionInputs[options[0][i]].checked = true;
+    }
+    for(i = 0; i < options[1].length; i++) {
+        productInputs[options[1][i]].checked = true;
+    }
+    if(options[0].length === 3) {
+        regionInputs[0].checked = true;
+    }
+    if(options[1].length === 3) {
+        productInputs[0].checked = true;
+    }
 }
